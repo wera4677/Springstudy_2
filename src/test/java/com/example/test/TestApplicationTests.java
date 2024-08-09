@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.test.Entity.Answer;
 import com.example.test.Entity.Question;
+import com.example.test.Repositroy.AnswerRepository;
 import com.example.test.Repositroy.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +22,20 @@ class TestApplicationTests {
     @Autowired //의존성 주입
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private AnswerRepository answerRepository;
+
     @Test
     void testJpa() {
-        assertEquals(2,questionRepository.count());//행갯수 리턴
-        Optional<Question> oq = questionRepository.findById(1);
+        Optional<Question> oq = this.questionRepository.findById(2);
         assertTrue(oq.isPresent());
         Question q = oq.get();
-        this.questionRepository.delete(q);
-        assertEquals(1,this.questionRepository.count());
+
+        Answer a = new Answer();
+        a.setContent("네 자동으로 생성됩니다.");
+        a.setQuestion(q);
+        a.setCreateDate(LocalDateTime.now());
+        this.answerRepository.save(a);
     }
 
 }
