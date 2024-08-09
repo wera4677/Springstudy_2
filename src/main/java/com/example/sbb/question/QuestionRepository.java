@@ -1,7 +1,6 @@
-package com.example.test.Repositroy;
+package com.example.sbb.question;
 
 
-import com.example.test.Entity.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
