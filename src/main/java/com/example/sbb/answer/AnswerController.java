@@ -1,0 +1,28 @@
+package com.example.sbb.answer;
+
+
+import com.example.sbb.question.Question;
+import com.example.sbb.question.QuestionSevice;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@RequestMapping("/answer") //프리픽스 설정
+@RequiredArgsConstructor //의존성 주입
+@Controller //컨트롤러 명시
+public class AnswerController {
+    private final QuestionSevice questionSevice;
+    private final AnswerService answerService;
+
+    @PostMapping("/create/{id}")
+    public String createAnswer(Model model, @PathVariable("id") Integer id,
+                               @RequestParam(value = "content") String content) {
+        Question question = this.questionSevice.getQuestion(id);
+        this.answerService.create(question,content);
+        return String.format("redirect:/question/%s", id);
+    }
+}
