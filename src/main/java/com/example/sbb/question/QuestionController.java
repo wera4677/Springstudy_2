@@ -3,9 +3,7 @@ package com.example.sbb.question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +29,11 @@ public class QuestionController {
     @GetMapping("/create")
     public String questionCreate(){
         return "question_form";
+    }
+    @PostMapping("/create")
+    public String questionCreate(@RequestParam(value = "subject") String subject,
+                                 @RequestParam(value = "cnotent") String content){
+        //TODO: 질문저장
+        return "redirect:/question/list";//질문 저장후 질문 목록으로 이동
     }
 }
