@@ -8,17 +8,21 @@
 <div layout:fragment="content" class="container">
     <h5 class="my-3 border-bottom pb-2">질문 등록</h5>
     <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
+        <!-- 오류 메시지 표시 -->
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
         </div>
+        <!-- 제목 입력 -->
         <div class="mb-3">
             <label for="subject" class="form-label">제목</label>
-            <input type="text" name="subject" id="subject" class="form-control" th:field="*{subject}">
+            <input type="text" name="subject" class="form-control" th:field="*{subject}">
         </div>
+        <!-- 내용 입력 -->
         <div class="mb-3">
             <label for="content" class="form-label">내용</label>
-            <textarea name="content" id="content" class="form-control" rows="10" th:field="*{content}"></textarea>
+            <textarea name="content" class="form-control" rows="10" th:field="*{content}"></textarea>
         </div>
+        <!-- 저장하기 버튼 -->
         <input type="submit" value="저장하기" class="btn btn-primary my-2">
     </form>
 </div>
