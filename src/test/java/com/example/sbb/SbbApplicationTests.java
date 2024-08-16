@@ -7,6 +7,7 @@ import com.example.sbb.answer.Answer;
 import com.example.sbb.question.Question;
 import com.example.sbb.answer.AnswerRepository;
 import com.example.sbb.question.QuestionRepository;
+import com.example.sbb.question.QuestionSevice;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +18,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest
-class TestApplicationTests {
+class SbbApplicationTests {
 
     @Autowired //의존성 주입
-    private QuestionRepository questionRepository;
+    private QuestionSevice questionSevice;
 
-    @Autowired
-    private AnswerRepository answerRepository;
-
-    @Transactional
     @Test
     void testJpa() {
-        Optional<Question> oq = this.questionRepository.findById(2);
-        assertTrue(oq.isPresent());
-        Question q = oq.get();
-
-        List<Answer> answerList = q.getAnswersList();
-
-        assertEquals(1,answerList.size());
-        assertEquals("네 자동으로 생성됩니다.",answerList.get(0).getContent());
+        for (int i =1; i<=300;i++){
+            String subject = String.format("테스트 테이터입니:[%03d]",i); //300개의 테스트
+            String content = "내용 없음";
+            this.questionSevice.create(subject,content);
+        }
     }
 
 }
