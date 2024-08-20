@@ -21,6 +21,7 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/**"))
                                 .permitAll()
                 )
+                //로그인 성공시 루트 페이지 이동
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/user/login")
