@@ -28,7 +28,7 @@ class SbbApplicationTests {
         for (int i =1; i<=300;i++){
             String subject = String.format("테스트 테이터입니다:[%03d]",i); //300개의 테스트
             String content = "내용 없음";
-            this.questionSevice.create(subject,content);
+            this.questionSevice.create(subject,content,null);
         }
     }
 
