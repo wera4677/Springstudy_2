@@ -85,13 +85,17 @@ public class QuestionController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String questionDelete(Principal principal,@PathVariable("id") Integer id) {
+    public String questionDelete(Principal principal, @PathVariable("id") Integer id) {
         Question question = this.questionSevice.getQuestion(id);
-        if(!question.getAuthor().getUsername().equals(principal.getName())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제 권한이 없습니다.");
+        if (question == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 질문을 찾을 수 없습니다.");
+        }
+        if (!question.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
         }
         this.questionSevice.delete(question);
         return "redirect:/";
     }
+
 
 }
