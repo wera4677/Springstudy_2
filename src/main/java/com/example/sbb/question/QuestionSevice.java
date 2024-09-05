@@ -1,11 +1,14 @@
 package com.example.sbb.question;
 
 import com.example.sbb.User.SiteUser;
+import com.example.sbb.answer.Answer;
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +21,25 @@ import com.example.sbb.DataNotFoundException;
 @Service
 public class QuestionSevice {
     private final QuestionRepository questionRepository;
+
+    private Specification<Question> search(String kw) {
+        return new Specification<>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                query.distinct(true); //중복제거
+                Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT);
+                Join<Question, Answer> a = q.join("answerList", JoinType.LEFT);
+                Join<Answer, SiteUser> u2 = a.join("author", JoinType.LEFT);
+                return cb.or(cb.like(q.get("subject"),"%" + kw +"%"),
+                        cb.like(q.get("content"),"%" + kw +"%"),
+                        cb.like(u1.get("username"),"%" + kw +"%"),
+                        cb.like(a.get("content"),"%" + kw +"%"),
+                        cb.like(u2.get("username"),"%" + kw +"%"));
+            }
+        };
+
+    }
 
     public Page<Question> getList(int page){
         List<Sort.Order> sorts = new ArrayList<>();
