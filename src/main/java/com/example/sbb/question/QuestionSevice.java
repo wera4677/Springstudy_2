@@ -29,7 +29,7 @@ public class QuestionSevice {
             public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true); //중복제거
                 Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT);
-                Join<Question, Answer> a = q.join("answerList", JoinType.LEFT);
+                Join<Question, Answer> a = q.join("answersList", JoinType.LEFT);
                 Join<Answer, SiteUser> u2 = a.join("author", JoinType.LEFT);
                 return cb.or(cb.like(q.get("subject"),"%" + kw +"%"),
                         cb.like(q.get("content"),"%" + kw +"%"),
