@@ -36,6 +36,7 @@ public class QuestionSevice {
                         cb.like(u1.get("username"),"%" + kw +"%"),
                         cb.like(a.get("content"),"%" + kw +"%"),
                         cb.like(u2.get("username"),"%" + kw +"%"));
+
             }
         };
 
